@@ -9,6 +9,7 @@ pygame.display.set_caption("Pac Runner") #Titulo da tela
 favicon = pygame.image.load("img/favicon.png") # Favicon
 pygame.display.set_icon(favicon) # Favicon
 
+
 logo_pac = pygame.image.load('img/Logo_pac_runner.png') # Logo da tela inicial
 
 # Posições para o pacman
@@ -21,11 +22,16 @@ player_pac = [WIDTH // 2 -40, 540]
 pos_I = 80 # posição inicial da moeda no eixo Y
 pos_F = 540 # posição final da moeda no eixo Y
 pos_y = pos_I
-pos_x = WIDTH//2 # posição da moeda do eixo X
-velocidade_y = 10
+pos_c = WIDTH//2 # posição da moeda do eixo X
+velocidade_y = 5
+
+# Pontuação do jogo
+score = 0
+high_score = 0
 
 
 class App:
+
     def __init__(self):
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT)) # variavel e tamanho da tela
         self.clock = pygame.time.Clock()
@@ -36,7 +42,9 @@ class App:
 
 
     def run(self):
+
         while self.running:
+
             if self.state == 'start':
                 self.start_events()
                 self.start_update()
@@ -48,6 +56,8 @@ class App:
             else:
                 self.running = False
             self.clock.tick(FPS)
+
+
 
 
 
@@ -102,7 +112,7 @@ class App:
         self.draw_text('MAIOR PONTUAÇÃO', self.screen, [WIDTH // 2 + 10, 10], START_TEXT_SIZE,
                        (255, 255, 255), START_FONT)
         # Melhor pontuação do jogo, precisa criar o contador
-        self.draw_text('199.999', self.screen, [WIDTH // 2 + 10, 30], START_TEXT_SIZE,
+        self.draw_text('{}'.format(high_score), self.screen, [WIDTH // 2 + 10, 30], START_TEXT_SIZE,
                        (255, 255, 255), START_FONT)
 
         self.screen.blit(logo_pac, [75, HEIGHT//2-50])
@@ -117,6 +127,8 @@ class App:
 #### PLAYING FUNCTIONS ####
 
     def playing_events(self):
+        global pos_y
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
@@ -139,23 +151,18 @@ class App:
                 if self.player_pac == player_posL:
                     self.player_pac = player_posC
 
-            #if (pos_y <= 540):
-               # pos_y = 80
-
-            #pos_y += velocidade_y
-
-
 
     def playing_update(self):
                pass
 
     def playing_draw(self):
+        global pos_y, score
         self.screen.fill(BLACK)
         self.screen.blit(self.background,(0,0)) # Aqui representa as barras laterais do fundo.
         self.draw_text('PONTOS', self.screen, [WIDTH // 2 + 10, 10], START_TEXT_SIZE,
                        (255, 255, 255), START_FONT)
         # Melhor pontuação do jogo, precisa criar o contador
-        self.draw_text('0', self.screen, [WIDTH // 2 + 10, 30], START_TEXT_SIZE,
+        self.draw_text('{}'.format(score), self.screen, [WIDTH // 2 + 10, 30], START_TEXT_SIZE,
                        (255, 255, 255), START_FONT)
 
         self.screen.blit(self.pacman, self.player_pac)  # Aqui representa o pacman.
@@ -163,9 +170,17 @@ class App:
         self.screen.blit(self.pause_off, (15,15)) # Aqui representa o botão pause, mas ainda não esta ativado.
         self.screen.blit(self.btn_exit, (320, 15))  # Aqui representa o botão pause, mas ainda não esta ativado.
 
-        # Moedas
-        #pos_y += velocidade_y
-        pygame.draw.circle(self.screen, YELLOW, (pos_x, pos_y), 7)
+        #### Moedas ####
+
+        # Moeda do Centro
+        pygame.draw.circle(self.screen, YELLOW, (pos_c, pos_y), 7)
+        pos_y += velocidade_y  # Movimentação da moeda
+        if self.player_pac == player_posC and pos_y > 540 or pos_y > 640:
+            pos_y = 80
+
+        # if self.player_pac == player_posC and
+        if self.player_pac == player_posC and pos_y >= 540:
+            score = score + 1
 
 
 
