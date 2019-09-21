@@ -2,6 +2,7 @@ from typing import List
 
 import pygame, sys
 from settings import *
+from os import path
 
 pygame.init()
 
@@ -19,15 +20,25 @@ player_posR = [WIDTH // 2 +66, 540] # posição a direita do pacman
 player_pac = [WIDTH // 2 -40, 540]
 
 # Configurações das moedas
-pos_I = 80 # posição inicial da moeda no eixo Y
-pos_F = 540 # posição final da moeda no eixo Y
-pos_y = pos_I
+#pos_I = 80 # posição inicial da moeda no eixo Y
+#pos_F = 540 # posição final da moeda no eixo Y
+pos_y_C = 80
+pos_y_L = 80
+pos_y_R = 80
+pos_y_C1 = -150
+pos_y_L1 = -150
+pos_y_R1 = -150
 pos_c = WIDTH//2 # posição da moeda do eixo X
-velocidade_y = 5
+pos_L = WIDTH//2 - 106 # posição da moeda do eixo X
+pos_R = WIDTH//2 + 106 # posição da moeda do eixo X
+velocidade_y = 3
 
 # Pontuação do jogo
 score = 0
 high_score = 0
+
+# Background do menu superior na tela playing
+menu_background = pygame.Rect(0, 0, 360, 60)
 
 
 class App:
@@ -39,6 +50,23 @@ class App:
         self.state = 'start'
         self.player_pac = player_pac
         self.load()
+        self.load_data()
+        self.highscore = high_score
+
+
+    def load_data(self):
+        # Carrega o high score
+        self.dir = path.dirname(__file__)
+        with open(path.join(self.dir, hs_file), 'w') as f:
+            try:
+                self.highscore = int(f.read())
+            except:
+                self.highscore = 0
+        if score > self.highscore:
+            self.highscore = score
+
+
+
 
 
     def run(self):
@@ -57,10 +85,6 @@ class App:
                 self.running = False
             self.clock.tick(FPS)
 
-
-
-
-
         pygame.quit()
         sys.exit()
 
@@ -69,6 +93,7 @@ class App:
 
 
 #### HELPER FUNCTIONS ####
+
     def draw_text(self, words, screen, pos, size, colour, font_name):
         font = pygame.font.SysFont(font_name, size)
         text = font.render(words, False, colour)
@@ -81,6 +106,8 @@ class App:
 
 
     def load(self):
+        global score, pos_y
+
         self.background = pygame.image.load('img/fundo.png')
         self.background = pygame.transform.scale(self.background, (WIDTH,HEIGHT))
         self.pacman = pygame.image.load('img/Pac2.png')
@@ -88,6 +115,88 @@ class App:
         self.pause_off = pygame.image.load('img/btn_pause_off.png')
         #self.pause_on = pygame.image.load('img/btn_pause_on.png')
         self.btn_exit = pygame.image.load('img/btn_exit.png')
+
+
+    def coin_center(self):
+        global pos_y, pos_L, pos_R, pos_C, score, pos_y_C, pos_y_C1, pos_y_L,pos_y_L1, pos_y_R
+
+        # Contador de pontos da segunda moeda do meio.
+        if self.player_pac == player_posC and pos_y_C1 >= 539 or self.player_pac == player_posC and pos_y_C >= 539:
+            score += 1
+
+        # Primeira moeda
+        pygame.draw.circle(self.screen, YELLOW,(pos_c, pos_y_C), 7)
+        pos_y_C += velocidade_y  # Movimentação da moeda
+        if self.player_pac == player_posC and pos_y_C > 540 or pos_y_C > 640:
+            pos_y_C = 80
+
+
+        # Segunda moeda
+        pygame.draw.circle(self.screen, YELLOW, (pos_c, pos_y_C1), 7)
+        pos_y_C1 += velocidade_y  # Movimentação da moeda
+        if self.player_pac == player_posC and pos_y_C1 > 540 or pos_y_C1 > 640:
+            pos_y_C1 = -150
+
+
+
+    def coin_right(self):
+        global pos_y, pos_L, pos_R, pos_C, score, pos_y_C, pos_y_C1, pos_y_L,pos_y_L1, pos_y_R, pos_y_R1
+
+        # Contador de pontos da segunda moeda da esquerda.
+        if self.player_pac == player_posR and pos_y_R1 >= 539 or self.player_pac == player_posR and pos_y_R >= 539:
+            score += 1
+
+        # Primeira moeda.
+        pygame.draw.circle(self.screen, YELLOW,(pos_R, pos_y_R), 7)
+        pos_y_R += velocidade_y  # Movimentação da moeda
+        if self.player_pac == player_posR and pos_y_R > 540 or pos_y_R > 640:
+            pos_y_R = 80
+
+        # Segunda moeda
+        pygame.draw.circle(self.screen, YELLOW, (pos_R, pos_y_R1), 7)
+        pos_y_R1 += velocidade_y  # Movimentação da moeda
+        if self.player_pac == player_posR and pos_y_R1 > 540 or pos_y_R1 > 640:
+            pos_y_R1 = -150
+
+    def coin_left(self):
+        global pos_y, pos_L, pos_R, pos_C, score, pos_y_C, pos_y_C1, pos_y_L, pos_y_L1, pos_y_R
+
+        # Contador de pontos da segunda moeda da esquerda.
+        if self.player_pac == player_posL and pos_y_L1 >= 539 or self.player_pac == player_posL and pos_y_L >= 539:
+            score += 1
+
+        pygame.draw.circle(self.screen, YELLOW, (pos_L, pos_y_L), 7)
+        pos_y_L += velocidade_y  # Movimentação da moeda
+        if self.player_pac == player_posL and pos_y_L > 540 or pos_y_L > 640:
+            pos_y_L = 80
+
+        # Segunda moeda
+        pygame.draw.circle(self.screen, YELLOW, (pos_L, pos_y_L1), 7)
+        pos_y_L1 += velocidade_y  # Movimentação da moeda
+        if self.player_pac == player_posL and pos_y_L1 > 540 or pos_y_L1 > 640:
+            pos_y_L1 = -150
+
+    # Velocidade de movimento das moedas e dos fantasmas
+    def velocidade(self):
+        global score, velocidade_y
+
+        if score > 50:
+            velocidade_y = 4
+        if score > 100:
+            velocidade_y = 5
+        if score > 200:
+            velocidade_y = 6
+        if score > 300:
+            velocidade_y = 7
+        if score > 400:
+            velocidade_y = 8
+        if score > 500:
+            velocidade_y = 9
+        if score > 600:
+             velocidade_y = 10
+
+
+
 
 
 
@@ -112,7 +221,7 @@ class App:
         self.draw_text('MAIOR PONTUAÇÃO', self.screen, [WIDTH // 2 + 10, 10], START_TEXT_SIZE,
                        (255, 255, 255), START_FONT)
         # Melhor pontuação do jogo, precisa criar o contador
-        self.draw_text('{}'.format(high_score), self.screen, [WIDTH // 2 + 10, 30], START_TEXT_SIZE,
+        self.draw_text(str(self.highscore), self.screen, [WIDTH // 2 + 10, 30], START_TEXT_SIZE,
                        (255, 255, 255), START_FONT)
 
         self.screen.blit(logo_pac, [75, HEIGHT//2-50])
@@ -156,31 +265,35 @@ class App:
                pass
 
     def playing_draw(self):
-        global pos_y, score
+        global pos_y, score, velocidade_y
+
         self.screen.fill(BLACK)
         self.screen.blit(self.background,(0,0)) # Aqui representa as barras laterais do fundo.
+
+        self.coin_center()  # Moedas do meio
+        self.coin_left()  # Moedas da esquerda.
+        self.coin_right()  # Moedas da direita.
+
+        pygame.draw.rect(self.screen, BLACK, menu_background) # Background do menu superior da "tela playing".
+
         self.draw_text('PONTOS', self.screen, [WIDTH // 2 + 10, 10], START_TEXT_SIZE,
                        (255, 255, 255), START_FONT)
         # Melhor pontuação do jogo, precisa criar o contador
         self.draw_text('{}'.format(score), self.screen, [WIDTH // 2 + 10, 30], START_TEXT_SIZE,
                        (255, 255, 255), START_FONT)
 
+
+
+
         self.screen.blit(self.pacman, self.player_pac)  # Aqui representa o pacman.
 
         self.screen.blit(self.pause_off, (15,15)) # Aqui representa o botão pause, mas ainda não esta ativado.
         self.screen.blit(self.btn_exit, (320, 15))  # Aqui representa o botão pause, mas ainda não esta ativado.
+        self.velocidade() # Aqui faz com que as moedas e fantasmas se movimentem, o codigo referente a essa funcionalidade esta na linha 179
 
-        #### Moedas ####
 
-        # Moeda do Centro
-        pygame.draw.circle(self.screen, YELLOW, (pos_c, pos_y), 7)
-        pos_y += velocidade_y  # Movimentação da moeda
-        if self.player_pac == player_posC and pos_y > 540 or pos_y > 640:
-            pos_y = 80
 
-        # if self.player_pac == player_posC and
-        if self.player_pac == player_posC and pos_y >= 540:
-            score = score + 1
+
 
 
 

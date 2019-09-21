@@ -15,3 +15,10 @@ START_FONT_NORMAL = 'arial'
 # Configurações das moedas
 
 
+
+# High Score
+hs_file = "highscore.txt"
+
+
+
+
