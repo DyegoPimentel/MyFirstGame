@@ -10,8 +10,12 @@ pygame.display.set_caption("Pac Runner") #Titulo da tela
 favicon = pygame.image.load("img/favicon.png") # Favicon
 pygame.display.set_icon(favicon) # Favicon
 
-
+# IMAGENS
 logo_pac = pygame.image.load('img/Logo_pac_runner.png') # Logo da tela inicial
+ghost_clyde = pygame.image.load('img/clyde.png') # Imagem do fantasma laranja.
+ghost_blink = pygame.image.load('img/blinky.png') # Imagem do fantasma vermelho.
+ghost_pinky = pygame.image.load('img/pinky.png') # Imagem do fantasma rosa.
+ghost_ink = pygame.image.load('img/inky.png')    # Imagem do fantasma azul.
 
 # Posições para o pacman
 player_posC = [WIDTH // 2 -40, 540] # posição central do pacman
@@ -28,9 +32,28 @@ pos_y_R = 80
 pos_y_C1 = -150
 pos_y_L1 = -150
 pos_y_R1 = -150
+
 pos_c = WIDTH//2 # posição da moeda do eixo X
 pos_L = WIDTH//2 - 106 # posição da moeda do eixo X
 pos_R = WIDTH//2 + 106 # posição da moeda do eixo X
+
+#pos_gL = 0 # Posição no eixo Y dos fantasmas.
+#pos_gC = 0 # Posição no eixo Y dos fantasmas.
+#pos_gR = 0 # Posição no eixo Y dos fantasmas.
+
+gcl = 0
+gcc = 0
+gcr = 0
+gpl = 0
+gpc = 0
+gpr = 0
+gil = 0
+gic = 0
+gir = 0
+gbl = 0
+gbc = 0
+gbr = 0
+
 velocidade_y = 3
 
 # Pontuação do jogo
@@ -81,6 +104,10 @@ class App:
                 self.playing_events()
                 self.playing_update()
                 self.playing_draw()
+            elif self.state == 'game_over':
+                self.game_over_events()
+                self.game_over_update()
+                self.game_over_draw()
             else:
                 self.running = False
             self.clock.tick(FPS)
@@ -92,7 +119,7 @@ class App:
 
 
 
-#### HELPER FUNCTIONS ####
+########################################## HELPER FUNCTIONS ###########################################################
 
     def draw_text(self, words, screen, pos, size, colour, font_name):
         font = pygame.font.SysFont(font_name, size)
@@ -101,9 +128,6 @@ class App:
         pos[0] = pos[0]-text_size[0]//2
         pos[0] = pos[0]-text_size[1]//2
         screen.blit(text, pos)
-
-
-
 
     def load(self):
         global score, pos_y
@@ -115,12 +139,126 @@ class App:
         self.pause_off = pygame.image.load('img/btn_pause_off.png')
         #self.pause_on = pygame.image.load('img/btn_pause_on.png')
         self.btn_exit = pygame.image.load('img/btn_exit.png')
+        self.clyde = pygame.image.load('img/clyde.png')
+        self.clyde = pygame.transform.scale(self.clyde, (80, 80))
+        self.blinky = pygame.image.load('img/blinky.png')
+        self.blinky = pygame.transform.scale(self.blinky, (80, 80))
+        self.pinky = pygame.image.load('img/pinky.png')
+        self.pinky = pygame.transform.scale(self.pinky, (80, 80))
+        self.inky = pygame.image.load('img/inky.png')
+        self.inky = pygame.transform.scale(self.inky, (80, 80))
+
+# Posicionamento dos fantasmas
+    def ghosts(self): # LARANJADO
+        global player_posL, player_posC, player_posR, gcr, gbl, gpr, gic, gcl, gbr, gir,gcc, gpl, gbc, gpc,gil
+
+        # blink da esquerda
+        self.screen.blit(self.blinky, (pos_L - 40, gbl))
+        gbl += velocidade_y - 1
+        if self.player_pac == player_posL and gbl > 480:
+            self.state = 'game_over'
+        elif gbl > 640:
+            gbl = -2500
+
+        # Pinky da direita
+        self.screen.blit(self.pinky, (pos_R - 40, gpr -250))
+        gpr += velocidade_y - 1
+        if self.player_pac == player_posR and gpr > 730:
+            self.state = 'game_over'
+        elif gpr > 890:
+            gpr = -2750
+
+        # inky do meio
+        self.screen.blit(self.inky, (pos_c - 40, gic - 500))
+        gic += velocidade_y - 1
+        if self.player_pac == player_posC and gic > 980: # gbr = 480 + primeiro gir
+            self.state = 'game_over'
+        elif gic > 1140:
+            gic = -3000
+
+        # clyde da esquerda duo
+        self.screen.blit(self.clyde, (pos_L - 40, gcl - 750))
+        gcl += velocidade_y - 1
+        if self.player_pac == player_posL and gcl > 1230:
+            self.state = 'game_over'
+        elif gcl > 1390:
+             gcl = -3250
+
+         # blink da direita duo
+        self.screen.blit(self.blinky, (pos_R - 40, gbr - 750))
+        gbr += velocidade_y - 1
+        if self.player_pac == player_posR and gbr > 1230:
+            self.state = 'game_over'
+        elif gbr > 1390:
+            gbr = -3250
+
+         # inky da direita
+        self.screen.blit(self.inky, (pos_R - 40, gir - 1000))
+        gir += velocidade_y - 1
+        if self.player_pac == player_posR and gir > 1480: # gbr = 480 + primeiro gir
+            self.state = 'game_over'
+        elif gir > 1640: # gir = 640 + primeiro gir
+            gir = -3500
+
+        # Clyde do centro
+        self.screen.blit(self.clyde, (pos_c - 40, gcc - 1250))
+        gcc += velocidade_y - 1
+        if self.player_pac == player_posC and gcc > 1730: # gcc = 480 + primeiro gcc
+            self.state = 'game_over'
+        elif gcc > 1890: # gcc = 640 + primeiro gcc
+            gcc = -3750
+
+        # Pinky da esquerda
+        self.screen.blit(self.pinky, (pos_L - 40, gpl - 1500))
+        gpl += velocidade_y - 1
+        if self.player_pac == player_posL and gpl > 1980: # gpl = 480 + primeiro gpl
+            self.state = 'game_over'
+        elif gpl > 2140: # gpl = 640 + primeiro gpl
+            gpl = -4000
+
+        # Blinky do centro
+        self.screen.blit(self.blinky, (pos_c - 40, gbc - 1750))
+        gbc += velocidade_y - 1
+        if self.player_pac == player_posC and gbc > 2230: # gbc = 480 + primeiro gbc
+            self.state = 'game_over'
+        elif gbc > 2390: # gbc = 640 + primeiro gbc
+            gbc = -4250
+
+        # Pinky do centro duo
+        self.screen.blit(self.pinky, (pos_c - 40, gpc - 2000))
+        gpc += velocidade_y - 1
+        if self.player_pac == player_posC and gpc > 2480: # gpc = 480 + primeiro gpc
+            self.state = 'game_over'
+        elif gpc > 2640: # gpc = 640 + primeiro gpc
+            gpc = -4500
+
+        # Inky da esquerda duo
+        self.screen.blit(self.inky, (pos_L - 40, gil - 2000))
+        gil += velocidade_y - 1
+        if self.player_pac == player_posL and gil > 2480: # gil = 480 + primeiro gil
+            self.state = 'game_over'
+        elif gil > 2640: # gil = 640 + primeiro gil
+            gil = -4500
+
+         # Clyde da esquerda
+        self.screen.blit(self.clyde, (pos_R - 40, gcr - 2250))
+        gcr += velocidade_y - 1
+        if self.player_pac == player_posR and gcr > 2730: # gcr = 480 + primeiro gcr
+            self.state = 'game_over'
+        elif gcr > 2890: # gcr = 640 + primeiro gcr
+            gcr = -4750
+
+
+
+
+
+
 
 
     def coin_center(self):
-        global pos_y, pos_L, pos_R, pos_C, score, pos_y_C, pos_y_C1, pos_y_L,pos_y_L1, pos_y_R
+        global pos_y, pos_L, pos_R, pos_c, score, pos_y_C, pos_y_C1, pos_y_L,pos_y_L1, pos_y_R
 
-        # Contador de pontos da segunda moeda do meio.
+        # Contador de pontos das moeda do meio.
         if self.player_pac == player_posC and pos_y_C1 >= 539 or self.player_pac == player_posC and pos_y_C >= 539:
             score += 1
 
@@ -130,41 +268,43 @@ class App:
         if self.player_pac == player_posC and pos_y_C > 540 or pos_y_C > 640:
             pos_y_C = 80
 
-
         # Segunda moeda
         pygame.draw.circle(self.screen, YELLOW, (pos_c, pos_y_C1), 7)
         pos_y_C1 += velocidade_y  # Movimentação da moeda
         if self.player_pac == player_posC and pos_y_C1 > 540 or pos_y_C1 > 640:
             pos_y_C1 = -150
 
-
-
     def coin_right(self):
         global pos_y, pos_L, pos_R, pos_C, score, pos_y_C, pos_y_C1, pos_y_L,pos_y_L1, pos_y_R, pos_y_R1
 
-        # Contador de pontos da segunda moeda da esquerda.
+        # Contador de pontos das moeda da direita.
         if self.player_pac == player_posR and pos_y_R1 >= 539 or self.player_pac == player_posR and pos_y_R >= 539:
             score += 1
 
-        # Primeira moeda.
+        # Primeira moeda da direita.
         pygame.draw.circle(self.screen, YELLOW,(pos_R, pos_y_R), 7)
         pos_y_R += velocidade_y  # Movimentação da moeda
-        if self.player_pac == player_posR and pos_y_R > 540 or pos_y_R > 640:
-            pos_y_R = 80
+        if self.player_pac == player_posR and pos_y_R > 540:
+            pos_y_R = - 180
+        elif pos_y_R > 640:
+            pos_y_R = 100
 
         # Segunda moeda
         pygame.draw.circle(self.screen, YELLOW, (pos_R, pos_y_R1), 7)
         pos_y_R1 += velocidade_y  # Movimentação da moeda
-        if self.player_pac == player_posR and pos_y_R1 > 540 or pos_y_R1 > 640:
-            pos_y_R1 = -150
+        if self.player_pac == player_posR and pos_y_R1 > 540:
+            pos_y_R1 = -330
+        elif pos_y_R1 > 640:
+            pos_y_R1 = -230
 
     def coin_left(self):
         global pos_y, pos_L, pos_R, pos_C, score, pos_y_C, pos_y_C1, pos_y_L, pos_y_L1, pos_y_R
 
-        # Contador de pontos da segunda moeda da esquerda.
+        # Contador de pontos das moeda da esquerda.
         if self.player_pac == player_posL and pos_y_L1 >= 539 or self.player_pac == player_posL and pos_y_L >= 539:
             score += 1
 
+        # Primeira moeda
         pygame.draw.circle(self.screen, YELLOW, (pos_L, pos_y_L), 7)
         pos_y_L += velocidade_y  # Movimentação da moeda
         if self.player_pac == player_posL and pos_y_L > 540 or pos_y_L > 640:
@@ -194,11 +334,6 @@ class App:
             velocidade_y = 9
         if score > 600:
              velocidade_y = 10
-
-
-
-
-
 
 
 
@@ -271,8 +406,19 @@ class App:
         self.screen.blit(self.background,(0,0)) # Aqui representa as barras laterais do fundo.
 
         self.coin_center()  # Moedas do meio
-        self.coin_left()  # Moedas da esquerda.
-        self.coin_right()  # Moedas da direita.
+        self.coin_left()    # Moedas da esquerda.
+        self.coin_right()   # Moedas da direita.
+
+        #self.ghost_blinky()
+        #self.ghost_pinky()
+        #self.ghost_inky()
+        self.ghosts()  # Fantasma Laranja.
+
+
+
+       # self.ghost_blinky() # Fantasma Vermelho.
+       # self.ghost_inky()   # Fantasma Azul.
+       # self.ghost_pinky()  # Fantasma rosa.
 
         pygame.draw.rect(self.screen, BLACK, menu_background) # Background do menu superior da "tela playing".
 
@@ -281,9 +427,6 @@ class App:
         # Melhor pontuação do jogo, precisa criar o contador
         self.draw_text('{}'.format(score), self.screen, [WIDTH // 2 + 10, 30], START_TEXT_SIZE,
                        (255, 255, 255), START_FONT)
-
-
-
 
         self.screen.blit(self.pacman, self.player_pac)  # Aqui representa o pacman.
 
@@ -299,3 +442,34 @@ class App:
 
         pygame.display.update()
 
+################################################# GAME OVER ############################################################
+
+    def game_over_events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.running = False
+
+            # No menu inicial "start" ao abertar a barra de espaço, inicia o jogo indo para a tela "playing".
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                self.state = 'playing'
+
+    def game_over_update(self):
+        pass
+
+    def game_over_draw(self):
+        self.screen.fill(BLACK)
+        self.draw_text('MAIOR PONTUAÇÃO', self.screen, [WIDTH // 2 + 10, 10], START_TEXT_SIZE,
+                       (255, 255, 255), START_FONT)
+        # Melhor pontuação do jogo, precisa criar o contador
+        self.draw_text(str(self.highscore), self.screen, [WIDTH // 2 + 10, 30], START_TEXT_SIZE,
+                       (255, 255, 255), START_FONT)
+
+        self.draw_text('GAME OVER', self.screen, [WIDTH//2+10, HEIGHT//2-50], GAME_OVER_SIZE,
+                       (255, 0, 0), GAME_OVER_FONT)
+
+        self.draw_text('PARA JOGAR NOVAMENTE', self.screen, [WIDTH//2+10, 540], START_TEXT_SIZE,
+                       (210, 150, 20), START_FONT)
+        self.draw_text('APERTE ESPAÇO', self.screen, [WIDTH // 2 + 10, 580], START_TEXT_SIZE,
+                       (210, 150, 20), START_FONT)
+
+        pygame.display.update()
