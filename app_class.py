@@ -320,19 +320,19 @@ class App:
     def velocidade(self):
         global score, velocidade_y
 
-        if score > 50:
+        if score > 5:
             velocidade_y = 4
-        if score > 100:
+        if score > 10:
             velocidade_y = 5
-        if score > 200:
+        if score > 15:
             velocidade_y = 6
-        if score > 300:
+        if score > 20:
             velocidade_y = 7
-        if score > 400:
+        if score > 30:
             velocidade_y = 8
-        if score > 500:
+        if score > 40:
             velocidade_y = 9
-        if score > 600:
+        if score > 50:
              velocidade_y = 10
 
 
@@ -409,16 +409,8 @@ class App:
         self.coin_left()    # Moedas da esquerda.
         self.coin_right()   # Moedas da direita.
 
-        #self.ghost_blinky()
-        #self.ghost_pinky()
-        #self.ghost_inky()
-        self.ghosts()  # Fantasma Laranja.
 
-
-
-       # self.ghost_blinky() # Fantasma Vermelho.
-       # self.ghost_inky()   # Fantasma Azul.
-       # self.ghost_pinky()  # Fantasma rosa.
+        self.ghosts()  # Fantasmas
 
         pygame.draw.rect(self.screen, BLACK, menu_background) # Background do menu superior da "tela playing".
 
@@ -434,12 +426,6 @@ class App:
         self.screen.blit(self.btn_exit, (320, 15))  # Aqui representa o botão pause, mas ainda não esta ativado.
         self.velocidade() # Aqui faz com que as moedas e fantasmas se movimentem, o codigo referente a essa funcionalidade esta na linha 179
 
-
-
-
-
-
-
         pygame.display.update()
 
 ################################################# GAME OVER ############################################################
@@ -451,7 +437,9 @@ class App:
 
             # No menu inicial "start" ao abertar a barra de espaço, inicia o jogo indo para a tela "playing".
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                self.state = 'playing'
+                self.reset() # Falta definir
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                self.running = False
 
     def game_over_update(self):
         pass
