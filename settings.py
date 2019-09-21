@@ -11,6 +11,8 @@ YELLOW = (255,190,0)
 START_TEXT_SIZE = 16
 START_FONT = 'arial black'
 START_FONT_NORMAL = 'arial'
+GAME_OVER_FONT = 'arial black'
+GAME_OVER_SIZE = 25
 
 # Configurações das moedas
 
