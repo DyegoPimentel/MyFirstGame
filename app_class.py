@@ -437,7 +437,7 @@ class App:
 
             # No menu inicial "start" ao abertar a barra de espaço, inicia o jogo indo para a tela "playing".
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                self.reset() # Falta definir
+                self.running = False # Falta definir
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 self.running = False
 
