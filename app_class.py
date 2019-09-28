@@ -77,14 +77,13 @@ class App:
         self.coin_pos_ini()
         self.speed()
         self.score = score = 0
-        self.highscore = high_score
 
-    def speed(self):
+    def speed(self): # esta função define a velocidade inicial.
         global velocidade_y
 
         velocidade_y = 3
 
-    def coin_pos_ini(self):
+    def coin_pos_ini(self): # Esta função define a posição inicial das moedas.
         global  pos_y_C, pos_y_L, pos_y_R, pos_y_C1, pos_y_L1, pos_y_R1
         pos_y_C = 80
         pos_y_L = 80
@@ -93,7 +92,7 @@ class App:
         pos_y_L1 = -150
         pos_y_R1 = -150
 
-    def ghost_pos_ini(self):
+    def ghost_pos_ini(self): # Esta função define a posição inicial dos fantasmas.
         global gcr, gbl, gpr, gic, gcl, gbr, gir, gcc, gpl, gbc, gpc, gil
 
         gcl = 0  # Fantasma Clyde da Esquerta
@@ -112,7 +111,7 @@ class App:
     def load_data(self):
         # Carrega o high score
         self.dir = path.dirname(__file__)
-        with open(path.join(self.dir, hs_file), 'w') as f:
+        with open(path.join(self.dir, hs_file), 'r') as f:
             try:
                 self.highscore = int(f.read())
             except:
@@ -333,8 +332,7 @@ class App:
         if self.player_pac == player_posL and pos_y_L1 > 540 or pos_y_L1 > 640:
             pos_y_L1 = -150
 
-    # Velocidade de movimento das moedas e dos fantasmas
-    def velocidade(self):
+    def velocidade(self): # Velocidade de movimento das moedas e dos fantasmas
         global score, velocidade_y
 
         if score > 5:
@@ -439,7 +437,7 @@ class App:
 
         pygame.display.update()
 
-    ################################################# GAME OVER ############################################################
+################################################# GAME OVER ############################################################
 
     def game_over_events(self):
         global score, gcr, gbl, gpr, gic, gcl, gbr, gir, gcc, gpl, gbc, gpc, gil
@@ -448,7 +446,7 @@ class App:
             if event.type == pygame.QUIT:
                 self.running = False
 
-            # No menu inicial "start" ao abertar a barra de espaço, inicia o jogo indo para a tela "playing".
+            # Na tela de game over "game_over" ao apertar a barra de espaço, inicia o jogo indo para a tela "playing".
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 self.__init__()
                 self.score # Reinicia a pontuação
@@ -458,17 +456,39 @@ class App:
                 self.state = 'playing' # chama a tela do jogo
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                self.running = False
+                self.__init__()
+                self.score  # Reinicia a pontuação
+                self.ghost_pos_ini()  # Reinicia a posição dos fantasmas
+                self.coin_pos_ini()  # Reinicia a posição das moedas.
+                self.speed()  # Reinicia a velocidade
+                self.state = 'start'  # chama a tela inicial
 
     def game_over_update(self):
         pass
 
     def game_over_draw(self):
+        global score
+
         self.screen.fill(BLACK)
-        self.draw_text('MAIOR PONTUAÇÃO', self.screen, [WIDTH // 2 + 10, 10], START_TEXT_SIZE,
-                       (255, 255, 255), START_FONT)
+        #self.draw_text('SUA PONTUAÇÃO', self.screen, [WIDTH // 2 + 10, 10], START_TEXT_SIZE, (255, 255, 255), START_FONT)
         # Melhor pontuação do jogo, precisa criar o contador
-        self.draw_text(str(self.highscore), self.screen, [WIDTH // 2 + 10, 30], START_TEXT_SIZE,
+        #self.draw_text(str(self.highscore), self.screen, [WIDTH // 2 + 10, 30], START_TEXT_SIZE,
+                       #(255, 255, 255), START_FONT)
+
+        if score >= self.highscore:
+            self.draw_text('NOVO RECORDE', self.screen, [WIDTH // 2 + 10, 10], START_TEXT_SIZE, (255, 255, 255),
+                           START_FONT)
+            self.highscore = score
+            with open(path.join(self.dir, hs_file), 'w') as f:
+                f.write(str(score))
+        elif score < self.highscore:
+            self.draw_text('SUA PONTUAÇÃO', self.screen, [WIDTH // 2 + 10, 10], START_TEXT_SIZE, (255, 255, 255),
+                           START_FONT)
+
+
+
+
+        self.draw_text('{}'.format(score), self.screen, [WIDTH // 2 + 10, 30], START_TEXT_SIZE,
                        (255, 255, 255), START_FONT)
 
         self.draw_text('GAME OVER', self.screen, [WIDTH // 2 + 10, HEIGHT // 2 - 50], GAME_OVER_SIZE,
@@ -479,4 +499,6 @@ class App:
         self.draw_text('APERTE ESPAÇO', self.screen, [WIDTH // 2 + 10, 580], START_TEXT_SIZE,
                        (210, 150, 20), START_FONT)
 
-        pygame.display.update()
+        pygame.display.flip()
+
+
