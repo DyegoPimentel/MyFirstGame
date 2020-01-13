@@ -17,13 +17,13 @@ ghost_blink = pygame.image.load('img/blinky.png')  # Imagem do fantasma vermelho
 ghost_pinky = pygame.image.load('img/pinky.png')  # Imagem do fantasma rosa.
 ghost_ink = pygame.image.load('img/inky.png')  # Imagem do fantasma azul.
 
-# Posições para o pacman
+# Posições para o pacman!
 player_posC = [WIDTH // 2 - 40, 540]  # posição central do pacman
 player_posL = [WIDTH // 2 - 146, 540]  # posição a esquerda do pacman
 player_posR = [WIDTH // 2 + 66, 540]  # posição a direita do pacman
 player_pac = [WIDTH // 2 - 40, 540]
 
-# Configurações das moedas
+# Configurações das moedas!
 # pos_I = 80 # posição inicial da moeda no eixo Y
 # pos_F = 540 # posição final da moeda no eixo Y
 pos_y_C = 80
