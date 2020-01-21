@@ -275,62 +275,84 @@ class App:
         global pos_y, pos_L, pos_R, pos_c, score, pos_y_C, pos_y_C1, pos_y_L, pos_y_L1, pos_y_R
 
         # Contador de pontos das moeda do meio.
-        if self.player_pac == player_posC and pos_y_C1 >= 539 or self.player_pac == player_posC and pos_y_C >= 539:
-            score += 1
-
         # Primeira moeda
         pygame.draw.circle(self.screen, YELLOW, (pos_c, pos_y_C), 7)
         pos_y_C += velocidade_y  # Movimentação da moeda
-        if self.player_pac == player_posC and pos_y_C > 540 or pos_y_C > 640:
+        if self.player_pac == player_posC and pos_y_C > 540:
+            score +=1
             pos_y_C = 80
+            
+        else:
+            if pos_y_C > 640:
+                pos_y_C = 80
 
         # Segunda moeda
         pygame.draw.circle(self.screen, YELLOW, (pos_c, pos_y_C1), 7)
         pos_y_C1 += velocidade_y  # Movimentação da moeda
-        if self.player_pac == player_posC and pos_y_C1 > 540 or pos_y_C1 > 640:
+        if self.player_pac == player_posC and pos_y_C1 > 540:
+            score +=1
             pos_y_C1 = -150
+        else: 
+            if pos_y_C1 > 640:
+                pos_y_C1 = -150
 
     def coin_right(self):
         global pos_y, pos_L, pos_R, pos_C, score, pos_y_C, pos_y_C1, pos_y_L, pos_y_L1, pos_y_R, pos_y_R1
 
         # Contador de pontos das moeda da direita.
-        if self.player_pac == player_posR and pos_y_R1 >= 539 or self.player_pac == player_posR and pos_y_R >= 539:
-            score += 1
+        #if self.player_pac == player_posR and pos_y_R1 >= 540: 
+         #   score += 1
+        #if self.player_pac == player_posR and pos_y_R >= 540:
+         #   score += 1
 
         # Primeira moeda da direita.
         pygame.draw.circle(self.screen, YELLOW, (pos_R, pos_y_R), 7)
         pos_y_R += velocidade_y  # Movimentação da moeda
         if self.player_pac == player_posR and pos_y_R > 540:
+            score += 1
             pos_y_R = - 180
-        elif pos_y_R > 640:
-            pos_y_R = 100
+        else:
+            if pos_y_R > 640:
+                pos_y_R = 100
 
         # Segunda moeda
         pygame.draw.circle(self.screen, YELLOW, (pos_R, pos_y_R1), 7)
         pos_y_R1 += velocidade_y  # Movimentação da moeda
         if self.player_pac == player_posR and pos_y_R1 > 540:
+            score += 1
             pos_y_R1 = -330
-        elif pos_y_R1 > 640:
-            pos_y_R1 = -230
+        else:
+            if pos_y_R1 > 640:
+                pos_y_R1 = -230
 
     def coin_left(self):
         global pos_y, pos_L, pos_R, pos_C, score, pos_y_C, pos_y_C1, pos_y_L, pos_y_L1, pos_y_R
 
         # Contador de pontos das moeda da esquerda.
-        if self.player_pac == player_posL and pos_y_L1 >= 539 or self.player_pac == player_posL and pos_y_L >= 539:
-            score += 1
+        #if self.player_pac == player_posL and pos_y_L1 >= 540: 
+         #   score += 1
+        #if self.player_pac == player_posL and pos_y_L >= 540:
+          #  score += 1
 
         # Primeira moeda
         pygame.draw.circle(self.screen, YELLOW, (pos_L, pos_y_L), 7)
         pos_y_L += velocidade_y  # Movimentação da moeda
-        if self.player_pac == player_posL and pos_y_L > 540 or pos_y_L > 640:
+        if self.player_pac == player_posL and pos_y_L > 540:
+            score += 1
             pos_y_L = 80
+        else:
+            if pos_y_L > 640:
+                pos_y_L = 80
 
         # Segunda moeda
         pygame.draw.circle(self.screen, YELLOW, (pos_L, pos_y_L1), 7)
         pos_y_L1 += velocidade_y  # Movimentação da moeda
-        if self.player_pac == player_posL and pos_y_L1 > 540 or pos_y_L1 > 640:
+        if self.player_pac == player_posL and pos_y_L1 > 540:
+            score += 1
             pos_y_L1 = -150
+        else:
+            if pos_y_L1 > 640:
+                pos_y_L1 = -150
 
     def velocidade(self): # Velocidade de movimento das moedas e dos fantasmas
         global score, velocidade_y

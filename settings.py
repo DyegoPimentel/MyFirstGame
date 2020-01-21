@@ -1,6 +1,6 @@
 # Configurações da tela
 WIDTH, HEIGHT = 360, 640
-FPS = 30
+FPS = 60
 
 # Configurações de cores
 BLACK = (0,0,0)
@@ -13,10 +13,6 @@ START_FONT = 'arial black'
 START_FONT_NORMAL = 'arial'
 GAME_OVER_FONT = 'arial black'
 GAME_OVER_SIZE = 25
-
-# Configurações das moedas
-
-
 
 # High Score
 hs_file = "highscore.txt"
