@@ -20,7 +20,3 @@ GAME_OVER_SIZE = 25
 
 # High Score
 hs_file = "highscore.txt"
-
-
-
-

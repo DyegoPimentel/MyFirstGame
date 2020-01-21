@@ -172,104 +172,104 @@ class App:
         self.inky = pygame.transform.scale(self.inky, (80, 80))
 
     # Posicionamento dos fantasmas
-    def ghosts(self):  # LARANJADO
+    def ghosts(self):
         global player_posL, player_posC, player_posR, gcr, gbl, gpr, gic, gcl, gbr, gir, gcc, gpl, gbc, gpc, gil
 
-        # blink da esquerda
+        # blink da esquerda - Vermelho
         self.screen.blit(self.blinky, (pos_L - 40, gbl))
         gbl += velocidade_y - 1
         if self.player_pac == player_posL and gbl > 480:
             self.state = 'game_over'
         elif gbl > 640:
-            gbl = -2500
+            gbl = -1860
 
-        # Pinky da direita
+        # Pinky da direita - rosa
         self.screen.blit(self.pinky, (pos_R - 40, gpr - 250))
         gpr += velocidade_y - 1
         if self.player_pac == player_posR and gpr > 730:
             self.state = 'game_over'
         elif gpr > 890:
-            gpr = -2750
+            gpr = -1610
 
-        # inky do meio
+        # inky do meio - Azul
         self.screen.blit(self.inky, (pos_c - 40, gic - 500))
         gic += velocidade_y - 1
         if self.player_pac == player_posC and gic > 980:  # gbr = 480 + primeiro gir
             self.state = 'game_over'
         elif gic > 1140:
-            gic = -3000
+            gic = -1360
 
-        # clyde da esquerda duo
+        # clyde da esquerda duo - Laranja
         self.screen.blit(self.clyde, (pos_L - 40, gcl - 750))
         gcl += velocidade_y - 1
         if self.player_pac == player_posL and gcl > 1230:
             self.state = 'game_over'
         elif gcl > 1390:
-            gcl = -3250
+            gcl = -1110
 
-        # blink da direita duo
+        # blink da direita duo - Vermelho
         self.screen.blit(self.blinky, (pos_R - 40, gbr - 750))
         gbr += velocidade_y - 1
         if self.player_pac == player_posR and gbr > 1230:
             self.state = 'game_over'
         elif gbr > 1390:
-            gbr = -3250
+            gbr = -1110
 
-        # inky da direita
+        # inky da direita - Azul
         self.screen.blit(self.inky, (pos_R - 40, gir - 1000))
         gir += velocidade_y - 1
         if self.player_pac == player_posR and gir > 1480:  # gbr = 480 + primeiro gir
             self.state = 'game_over'
         elif gir > 1640:  # gir = 640 + primeiro gir
-            gir = -3500
+            gir = -860
 
-        # Clyde do centro
+        # Clyde do centro - Laranja
         self.screen.blit(self.clyde, (pos_c - 40, gcc - 1250))
         gcc += velocidade_y - 1
         if self.player_pac == player_posC and gcc > 1730:  # gcc = 480 + primeiro gcc
             self.state = 'game_over'
         elif gcc > 1890:  # gcc = 640 + primeiro gcc
-            gcc = -3750
+            gcc = -610
 
-        # Pinky da esquerda
+        # Pinky da esquerda - Rosa
         self.screen.blit(self.pinky, (pos_L - 40, gpl - 1500))
         gpl += velocidade_y - 1
         if self.player_pac == player_posL and gpl > 1980:  # gpl = 480 + primeiro gpl
             self.state = 'game_over'
         elif gpl > 2140:  # gpl = 640 + primeiro gpl
-            gpl = -4000
+            gpl = -360
 
-        # Blinky do centro
+        # Blinky do centro - Vermelho
         self.screen.blit(self.blinky, (pos_c - 40, gbc - 1750))
         gbc += velocidade_y - 1
         if self.player_pac == player_posC and gbc > 2230:  # gbc = 480 + primeiro gbc
             self.state = 'game_over'
         elif gbc > 2390:  # gbc = 640 + primeiro gbc
-            gbc = -4250
+            gbc = -110
 
-        # Pinky do centro duo
+        # Pinky do centro duo - Rosa
         self.screen.blit(self.pinky, (pos_c - 40, gpc - 2000))
         gpc += velocidade_y - 1
         if self.player_pac == player_posC and gpc > 2480:  # gpc = 480 + primeiro gpc
             self.state = 'game_over'
         elif gpc > 2640:  # gpc = 640 + primeiro gpc
-            gpc = -4500
+            gpc = 140
 
-        # Inky da esquerda duo
+        # Inky da esquerda duo - Azul
         self.screen.blit(self.inky, (pos_L - 40, gil - 2000))
         gil += velocidade_y - 1
         if self.player_pac == player_posL and gil > 2480:  # gil = 480 + primeiro gil
             self.state = 'game_over'
         elif gil > 2640:  # gil = 640 + primeiro gil
-            gil = -4500
+            gil = 140
 
-        # Clyde da esquerda
+        # Clyde da esquerda - Laranja
         self.screen.blit(self.clyde, (pos_R - 40, gcr - 2250))
         gcr += velocidade_y - 1
         if self.player_pac == player_posR and gcr > 2730:  # gcr = 480 + primeiro gcr
             self.state = 'game_over'
         elif gcr > 2890:  # gcr = 640 + primeiro gcr
-            gcr = -4750
+            gcr = 390
 
     def coin_center(self):
         global pos_y, pos_L, pos_R, pos_c, score, pos_y_C, pos_y_C1, pos_y_L, pos_y_L1, pos_y_R
