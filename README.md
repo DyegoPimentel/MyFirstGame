@@ -1,19 +1,36 @@
+**Languages:** English - [Português](README_PT-BR.md)
+
 # Pac Runner
 
-Este jogo foi desenvolvido para compor o fórum avaliativo do curso de Big Data e Inteligência
-artificial na Pontifícia Universidade Católica de Goiás pelo aluno Dyego Pimentel.
+This game was developed to compose the integrative project of the Big Data and artificial Intelligence degree at the Pontifical Catholic University of Goiás. Read more to look the game and technical descriptions.
 
-Para o desenvolvimento do jogo foi utilizado a linguagem python e a biblioteca pygame,
-o jogo é uma versão contemporânea do clássico jogo Pac-Man.
+![PacRunner](https://user-images.githubusercontent.com/40842815/172657405-96553327-91e4-4618-8037-49269a1990eb.gif)
+
+For the development of the game,  I used Python and pygame library, the game is a contemporary version of the classic Pac-Man game.
+
+In this project I was responsible for all stages of development:
+- Brainstorm
+- Logo Design
+- User Interface
+- Game Development
 
 
-Para jogar é bem simples:
+**To play is very simple, just follow the steps below:**
+- Have Python installed;
+- Install the Pygame library (pip install pygame);
+- Clone this repository;
+- Access the cloned repository on your computer;
+- Open the terminal and type (python main.py);
+- On the home screen just press the spacebar to start the game;
+- On the game screen, Pac-Man is fixed on the Y axis, and to move to
+right or left on the X axis, just use the arrow keys.
 
-- Na tela inicial basta apertar a tecla espaço para que o jogo entre na tela do jogo.
 
-- Na tela do jogo é bem intuitivo, o Pac-Man fica fixo no eixo Y, e para movimentar para
-direita ou esquerda no eixo X, basta utilizar as setas do teclado.
+**About the game**
 
-O objetivo é coletar o máximo número de moedas, lembrando sempre de desviar dos fantasminhas
-para que continue vivo. O jogo acelera a cada 100 pontos coletados a fim de dificultar o
-jogo e caso caia na tela de game over, basta apertar espaço para começar jogar novamente.
+The objective is to collect as many points as possible, always remembering to dodge the little ghosts.
+so that Pacman lives on. The game speeds up every 100 points collected in order to make it difficult to
+game, and if you land on the game over screen, just press space to restart.
+
+---
+Developed by [Dyego Pimentel](https://www.linkedin.com/in/dyegopimentel/)
